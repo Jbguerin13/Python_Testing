@@ -22,7 +22,7 @@ def test_purchase_places_not_enough_places(client, setup_data):
         'places': '10'
     })
     
-    assert response.status_code == 200
+    assert response.status_code == 400
     assert b"Not enough places available." in response.data
     assert int(competitions[1]['numberOfPlaces']) == 5
 
@@ -35,6 +35,6 @@ def test_purchase_places_more_than_12(client, setup_data):
         'places': '13'
     })
     
-    assert response.status_code == 200
+    assert response.status_code == 400
     assert b"You cannot book more than 12 places per competition." in response.data
     assert int(competitions[0]['numberOfPlaces']) == 20
