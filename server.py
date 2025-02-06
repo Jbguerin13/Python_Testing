@@ -27,11 +27,14 @@ def index():
     return render_template('index.html')
 
 #display welcome page after connextion
-@app.route('/showSummary',methods=['POST'])
-def showSummary():
+@app.route('/show_summary',methods=['POST'])
+def show_summary():
     #look for the club in the list of clubs
-    club = [club for club in clubs if club['email'] == request.form['email']][0]
-    return render_template('welcome.html',club=club,competitions=competitions)
+    for club in clubs:
+        if club['email'] == request.form['email']:
+            return render_template('welcome.html',club=club,competitions=competitions)
+    flash("Wrong credentials, please retry", "error")
+    return redirect(url_for('index'))
 
 #display the booking page
 @app.route('/book/<competition>/<club>')
