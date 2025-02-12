@@ -14,11 +14,12 @@ def client():
 def setup_data(monkeypatch):    
     mock_competitions = [
         {"name": "Competition 1", "numberOfPlaces": "20"},
-        {"name": "Competition 2", "numberOfPlaces": "5"}
+        {"name": "Competition 2", "numberOfPlaces": "5"},
     ]
     mock_clubs = [
         {"name": "Club A", "email": "clubA@example.com", "points": "10"},
-        {"name": "Club B", "email": "clubB@example.com", "points": "3"}
+        {"name": "Club B", "email": "clubB@example.com", "points": "3"},
+        {"name": "Club C", "email": "clubC@example.com", "points": "15"},
     ]
 
     monkeypatch.setattr("server.competitions", mock_competitions)
