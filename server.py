@@ -31,12 +31,12 @@ def index():
 def show_summary():
     email = request.form.get("email") if request.method == "POST" else request.args.get("email")
     club = next((club for club in clubs if club['email'] == email), None)
-
+    
     if club:
         return render_template('welcome.html', club=club, competitions=competitions)
 
     flash("Wrong credentials, please retry", "error")
-    return redirect(url_for('index'))
+    return redirect(url_for('index')), 400
 
 #display the booking page
 @app.route('/book/<competition>/<club>', methods=['GET', 'POST'])
@@ -83,9 +83,13 @@ def purchasePlaces():
 
     return render_template('welcome.html', club=club, competitions=competitions)
 
+@app.route('/display_points_club', methods=['POST','GET'])
+def display_points_club():
+    """Affiche les points des clubs et garde le contexte du club connecté"""
+    email = request.form.get("email") if request.method == "POST" else request.args.get("email")
+    club = next((club for club in clubs if club['email'] == email), None)
 
-# TODO: Add route for points display
-
+    return render_template('display_points_club.html', clubs=clubs, club=club)
 
 @app.route('/logout')
 def logout():
