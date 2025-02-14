@@ -53,4 +53,12 @@ GUDLFT est une application web conçue pour les organisateurs de compétitions l
     ```bash
     make test 
     ```
+<br>
+
+   **Coverage report**
+
+<br>
+
+
+   ![Rapport de coverage des tests](assets/coverage_report.png)
 
