@@ -12,7 +12,7 @@ def test_purchase_places_success(client, setup_data):
     assert response.status_code == 302
     assert int(competitions[0]['numberOfPlaces']) == 15
 
-def test_purchase_places_not_enough_places(client, setup_data):
+def test_cant_purchase_places_not_enough_places(client, setup_data):
     #TEST cant buy if not enough places
     competitions, _ = setup_data
     response = client.post('/purchasePlaces', data={
@@ -25,7 +25,7 @@ def test_purchase_places_not_enough_places(client, setup_data):
     assert b"Not enough places available." in response.data
     assert int(competitions[1]['numberOfPlaces']) == 5
 
-def test_purchase_places_more_than_12(client, setup_data):
+def test_cant_purchase_places_more_than_12(client, setup_data):
     #TEST cant buy more than 12 places
     competitions, _ = setup_data
     response = client.post('/purchasePlaces', data={
@@ -39,7 +39,7 @@ def test_purchase_places_more_than_12(client, setup_data):
     assert b"You cannot book more than 12 places per competition." in response.data
 
 
-def test_purchase_places_not_enough_points(client, setup_data):
+def test_cant_purchase_places_not_enough_points(client, setup_data):
     # TEST cant buy if not enough points
     _, clubs = setup_data
     response = client.post('/purchasePlaces', data={
