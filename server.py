@@ -30,13 +30,18 @@ def index():
 @app.route('/show_summary',methods=['POST','GET'])
 def show_summary():
     email = request.form.get("email") if request.method == "POST" else request.args.get("email")
+    
+    if not email:
+        flash("Email is required. Please login.", "error")
+        return redirect(url_for('index'))
+
     club = next((club for club in clubs if club['email'] == email), None)
     
     if club:
         return render_template('welcome.html', club=club, competitions=competitions)
 
     flash("Wrong credentials, please retry", "error")
-    return redirect(url_for('index')), 400
+    return redirect(url_for('index'))
 
 #display the booking page
 @app.route('/book/<competition>/<club>', methods=['GET', 'POST'])
