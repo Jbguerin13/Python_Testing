@@ -21,3 +21,11 @@ def test_error_when_no_email(client, setup_data):
 
     assert response.status_code == 200
     assert b"Email is required. Please login." in response.data
+    
+def test_verify_expired_competition(client, setup_data):
+    """TEST: Expired competitions should not show a booking link"""
+    
+    response = client.post('/show_summary', data={'email': 'clubA@example.com'})
+    
+    assert b"Competition 3" in response.data
+    assert b"Expired" in response.data

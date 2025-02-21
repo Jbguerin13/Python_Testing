@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from flask import Flask,render_template,request,redirect,flash,url_for
 
 #load the clubs and competitions from the json files
@@ -12,6 +13,12 @@ def loadCompetitions():
     with open('competitions.json') as comps:
          listOfCompetitions = json.load(comps)['competitions']
          return listOfCompetitions
+     
+def verify_expiration_date(competition_date: str) -> bool:
+    """Verify if the competition date is expired"""
+    today = datetime.today()
+    competition_date = datetime.strptime(competition_date, "%Y-%m-%d %H:%M:%S")
+    return today > competition_date
 
 
 app = Flask(__name__) #create the Flask app
@@ -38,6 +45,8 @@ def show_summary():
     club = next((club for club in clubs if club['email'] == email), None)
     
     if club:
+        for comp in competitions:
+            comp['is_expired'] = verify_expiration_date(comp['date'])
         return render_template('welcome.html', club=club, competitions=competitions)
 
     flash("Wrong credentials, please retry", "error")
