@@ -6,7 +6,6 @@ TEST_FILES := \
     tests/test_booking_page.py \
     tests/test_show_summary.py
 
-# Commande pour exécuter tous les tests
 test:
 	$(PYTEST) $(TEST_FILES)
 
